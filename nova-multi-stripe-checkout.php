@@ -3,7 +3,7 @@
  * Plugin Name: Nova Multi-Stripe Checkout
  * Plugin URI: https://github.com/kbrookes/Nova-Multi-Stripe-Checkout
  * Description: Lightweight REST API for creating Stripe Checkout subscription sessions with per-seat quantities, using different Stripe accounts (AU/NZ) based on form input.
- * Version: 0.1.2
+ * Version: 0.1.3
  * Author: Kelsey Brookes
  * Author URI: https://github.com/kbrookes/
  * License: GPL v2 or later
@@ -16,6 +16,7 @@
  * Network: false
  * GitHub Plugin URI: kbrookes/Nova-Multi-Stripe-Checkout
  * Primary Branch: main
+ * Update URI: https://github.com/kbrookes/Nova-Multi-Stripe-Checkout
  *
  * @package NovaMSC
  */
@@ -26,7 +27,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Define plugin constants
-define('NOVA_MSC_VER', '0.1.2');
+define('NOVA_MSC_VER', '0.1.3');
 define('NOVA_MSC_OPT', 'nova_msc_options');
 
 // Load Composer autoloader if available, otherwise load Stripe SDK directly
