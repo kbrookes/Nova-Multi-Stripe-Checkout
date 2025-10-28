@@ -30,13 +30,20 @@ if (!defined('ABSPATH')) {
 define('NOVA_MSC_VER', '0.1.3');
 define('NOVA_MSC_OPT', 'nova_msc_options');
 
-// Load Composer autoloader if available, otherwise load Stripe SDK directly
+// Load Stripe SDK - try Composer first, then fallback to embedded
 $autoloader_path = plugin_dir_path(__FILE__) . 'vendor/autoload.php';
+$stripe_init_path = plugin_dir_path(__FILE__) . 'includes/stripe-php/init.php';
+
 if (file_exists($autoloader_path)) {
     require_once $autoloader_path;
+} elseif (file_exists($stripe_init_path)) {
+    require_once $stripe_init_path;
 } else {
-    // Fallback: Load Stripe SDK directly
-    require_once plugin_dir_path(__FILE__) . 'includes/stripe-php/init.php';
+    // If neither exists, show a helpful error
+    add_action('admin_notices', function() {
+        echo '<div class="notice notice-error"><p><strong>Nova Multi-Stripe Checkout:</strong> Stripe SDK not found. Please reinstall the plugin.</p></div>';
+    });
+    return;
 }
 
 // Include core files
