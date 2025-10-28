@@ -28,6 +28,12 @@ class REST {
      * Register REST routes
      */
     public function register_routes() {
+        register_rest_route('nova/v1', '/debug', array(
+            'methods' => 'GET',
+            'callback' => array($this, 'debug_info'),
+            'permission_callback' => '__return_true',
+        ));
+        
         register_rest_route('nova/v1', '/checkout', array(
             'methods' => 'POST',
             'callback' => array($this, 'create_checkout_session'),
@@ -162,5 +168,45 @@ class REST {
         } catch (Exception $e) {
             return nova_msc_rest_error('Unexpected error: ' . $e->getMessage(), 500);
         }
+    }
+
+    /**
+     * Debug information endpoint
+     */
+    public function debug_info($request) {
+        $plugin_dir = plugin_dir_path(dirname(__FILE__));
+        
+        $debug_info = array(
+            'plugin_version' => NOVA_MSC_VER,
+            'plugin_directory' => $plugin_dir,
+            'vendor_autoloader' => array(
+                'path' => $plugin_dir . 'vendor/autoload.php',
+                'exists' => file_exists($plugin_dir . 'vendor/autoload.php'),
+            ),
+            'stripe_sdk' => array(
+                'path' => $plugin_dir . 'includes/stripe-php/init.php',
+                'exists' => file_exists($plugin_dir . 'includes/stripe-php/init.php'),
+            ),
+            'includes_directory' => array(
+                'path' => $plugin_dir . 'includes/',
+                'exists' => is_dir($plugin_dir . 'includes/'),
+                'contents' => is_dir($plugin_dir . 'includes/') ? scandir($plugin_dir . 'includes/') : array(),
+            ),
+            'stripe_loaded' => false,
+            'stripe_class_available' => false,
+        );
+
+        // Test if Stripe can be loaded
+        if (file_exists($plugin_dir . 'includes/stripe-php/init.php')) {
+            try {
+                require_once $plugin_dir . 'includes/stripe-php/init.php';
+                $debug_info['stripe_loaded'] = true;
+                $debug_info['stripe_class_available'] = class_exists('Stripe\Stripe');
+            } catch (Exception $e) {
+                $debug_info['stripe_error'] = $e->getMessage();
+            }
+        }
+
+        return nova_msc_rest_ok($debug_info);
     }
 }
