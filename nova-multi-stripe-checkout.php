@@ -29,8 +29,14 @@ if (!defined('ABSPATH')) {
 define('NOVA_MSC_VER', '0.1.1');
 define('NOVA_MSC_OPT', 'nova_msc_options');
 
-// Load Composer autoloader
-require_once plugin_dir_path(__FILE__) . 'vendor/autoload.php';
+// Load Composer autoloader if available, otherwise load Stripe SDK directly
+$autoloader_path = plugin_dir_path(__FILE__) . 'vendor/autoload.php';
+if (file_exists($autoloader_path)) {
+    require_once $autoloader_path;
+} else {
+    // Fallback: Load Stripe SDK directly
+    require_once plugin_dir_path(__FILE__) . 'includes/stripe-php/init.php';
+}
 
 // Include core files
 require_once plugin_dir_path(__FILE__) . 'includes/helpers.php';
