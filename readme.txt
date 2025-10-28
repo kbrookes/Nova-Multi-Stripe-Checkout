@@ -4,7 +4,7 @@ Tags: stripe, checkout, subscription, multi-currency, australia, new-zealand
 Requires at least: 5.0
 Tested up to: 6.4
 Requires PHP: 8.1
-Stable tag: 0.1.3
+Stable tag: 0.1.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -83,6 +83,11 @@ POST /wp-json/nova/v1/checkout
 ```
 
 == Changelog ==
+
+= 0.1.4 =
+* Fixed Stripe SDK loading with improved error handling
+* Added debug file for troubleshooting
+* Enhanced fallback logic for dependency loading
 
 = 0.1.3 =
 * Added Update URI header for better Git Updater compatibility
