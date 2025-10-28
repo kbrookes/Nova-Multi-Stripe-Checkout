@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<ruleset name="Nova Multi-Stripe Checkout">
+    <description>WordPress Coding Standards for Nova Multi-Stripe Checkout plugin</description>
+
+    <!-- What to scan -->
+    <file>plugin/</file>
+
+    <!-- Exclude vendor directory -->
+    <exclude-pattern>*/vendor/*</exclude-pattern>
+
+    <!-- How to scan -->
+    <arg name="colors"/>
+    <arg name="parallel" value="50"/>
+    <arg value="n"/>
+
+    <!-- Rules: Check WordPress Coding Standards -->
+    <rule ref="WordPress">
+        <!-- Allow short array syntax -->
+        <exclude name="Generic.Arrays.DisallowShortArraySyntax"/>
+        
+        <!-- Allow alternative control structure syntax -->
+        <exclude name="Generic.ControlStructures.InlineControlStructure"/>
+    </rule>
+
+    <!-- Rules: Check WordPress Extra -->
+    <rule ref="WordPress-Extra">
+        <!-- Allow short array syntax -->
+        <exclude name="Generic.Arrays.DisallowShortArraySyntax"/>
+    </rule>
+
+    <!-- Rules: Check WordPress Docs -->
+    <rule ref="WordPress-Docs">
+        <!-- Allow short array syntax -->
+        <exclude name="Generic.Arrays.DisallowShortArraySyntax"/>
+    </rule>
+
+    <!-- Rules: Check PHP Compatibility - Disabled due to PHP 8.1+ compatibility issues -->
+    <!-- <rule ref="PHPCompatibility">
+        <config name="testVersion" value="8.1"/>
+    </rule> -->
+
+    <!-- Rules: Generic -->
+    <rule ref="Generic">
+        <!-- Allow short array syntax -->
+        <exclude name="Generic.Arrays.DisallowShortArraySyntax"/>
+    </rule>
+
+    <!-- Rules: Squiz -->
+    <rule ref="Squiz">
+        <!-- Allow short array syntax -->
+        <exclude name="Squiz.Arrays.ArrayDeclaration"/>
+    </rule>
+
+    <!-- Rules: PSR -->
+    <rule ref="PSR2">
+        <!-- Allow short array syntax -->
+        <exclude name="Generic.Arrays.DisallowShortArraySyntax"/>
+    </rule>
+</ruleset>

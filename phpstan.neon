@@ -1,0 +1,9 @@
+parameters:
+    level: 7
+    paths:
+        - plugin/includes
+    ignoreErrors:
+        - '#Call to an undefined method WP_REST_Request::get_header\(\)#'
+        - '#Call to an undefined method WP_REST_Request::get_param\(\)#'
+    excludePaths:
+        - plugin/vendor

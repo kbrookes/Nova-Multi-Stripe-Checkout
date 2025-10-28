@@ -1,0 +1,54 @@
+name: PHP CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  php-tests:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        php-version: [8.1, 8.2, 8.3]
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php-version }}
+        extensions: mbstring, xml, ctype, iconv, intl, pdo_mysql
+        coverage: none
+    
+    - name: Cache Composer packages
+      id: composer-cache
+      uses: actions/cache@v3
+      with:
+        path: plugin/vendor
+        key: ${{ runner.os }}-php-${{ matrix.php-version }}-composer-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-php-${{ matrix.php-version }}-composer-
+    
+    - name: Install dependencies
+      run: |
+        cd plugin
+        composer install --prefer-dist --no-progress --no-suggest
+    
+    - name: Run PHP lint
+      run: |
+        cd plugin
+        composer lint
+    
+    - name: Run PHPCS
+      run: |
+        cd plugin
+        composer phpcs
+    
+    - name: Run PHPStan
+      run: |
+        cd plugin
+        composer phpstan
