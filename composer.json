@@ -27,7 +27,7 @@
     },
     "scripts": {
         "lint": "php -l",
-        "phpcs": "phpcs --standard=../phpcs.xml",
+        "phpcs": "phpcs --standard=phpcs.xml",
         "phpstan": "phpstan analyse includes/",
         "dupe": "phpmd includes/ text cleancode,codesize,design,naming,unusedcode --minimumpriority 1",
         "audit": "composer audit"
