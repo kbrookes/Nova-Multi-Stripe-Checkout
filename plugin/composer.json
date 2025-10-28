@@ -1,0 +1,40 @@
+{
+    "name": "nova-multi-stripe-checkout/wordpress-plugin",
+    "description": "Lightweight REST API for creating Stripe Checkout subscription sessions with per-seat quantities",
+    "type": "wordpress-plugin",
+    "license": "GPL-2.0-or-later",
+    "authors": [
+        {
+            "name": "Nova Strategic",
+            "email": "kelsey@novastrategic.co"
+        }
+    ],
+    "require": {
+        "php": ">=8.1",
+        "stripe/stripe-php": "^14.0"
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3.7",
+        "phpcompatibility/php-compatibility": "^9.3",
+        "wp-coding-standards/wpcs": "^3.0",
+        "phpstan/phpstan": "^1.10",
+        "phpmd/phpmd": "^2.15"
+    },
+    "autoload": {
+        "psr-4": {
+            "NovaMSC\\": "includes/"
+        }
+    },
+    "scripts": {
+        "lint": "php -l",
+        "phpcs": "phpcs --standard=../phpcs.xml",
+        "phpstan": "phpstan analyse includes/",
+        "dupe": "phpmd includes/ text cleancode,codesize,design,naming,unusedcode --minimumpriority 1",
+        "audit": "composer audit"
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    }
+}
