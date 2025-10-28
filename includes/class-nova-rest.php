@@ -103,14 +103,18 @@ class REST {
 
         // Get Stripe secret key
         $secret_key = nova_msc_secret($country);
+        error_log('Nova MSC Debug - Country: ' . $country . ', Secret Key: ' . (empty($secret_key) ? 'NOT FOUND' : 'FOUND'));
         if (!$secret_key) {
             return nova_msc_rest_error('Stripe secret key not configured for ' . $country, 500);
         }
 
         // Validate price IDs exist
+        error_log('Nova MSC Debug - Validating prices for: ' . $country . ', ' . $plan . ', ' . $support . ', ' . $billing);
         if (!Prices::validate_price_ids($country, $plan, $support, $billing)) {
+            error_log('Nova MSC Debug - Price validation failed');
             return nova_msc_rest_error('Price configuration not found for the selected options.', 500);
         }
+        error_log('Nova MSC Debug - Price validation passed');
 
         // Get price IDs
         $price_ids = Prices::get_price_ids($country, $plan, $support, $billing);
@@ -166,6 +170,9 @@ class REST {
         } catch (\Stripe\Exception\ApiErrorException $e) {
             return nova_msc_rest_error('Stripe API error: ' . $e->getMessage(), 500);
         } catch (Exception $e) {
+            // Log the full error for debugging
+            error_log('Nova MSC Checkout Error: ' . $e->getMessage());
+            error_log('Nova MSC Checkout Trace: ' . $e->getTraceAsString());
             return nova_msc_rest_error('Unexpected error: ' . $e->getMessage(), 500);
         }
     }
